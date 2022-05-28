@@ -2,6 +2,11 @@ const router = require('express').Router();
 const {savedNotes} = require ('../../db/db.json');
 const {findById, createNewNote, deleteNote } = require('../../lib/notes');
 
+//get/api/notes should read db.json file and return all saved notes as json
+router.get('/api/notes', (req, res) => {
+  let results= savedNotes;
+  res.json(results);
+});
 
  router.get('/api/notes/:id', (req, res) => {
           const result = findById(req.params.id, savedNotes);
@@ -12,11 +17,6 @@ const {findById, createNewNote, deleteNote } = require('../../lib/notes');
           }
         });
 
-//get/api/notes should read db.json file and return all saved notes as json
-router.get('/api/notes', (req, res) => {
-  let results= savedNotes;
-  res.json(results);
-});
 
 router.post('/api/notes', (req,res) => {
   // set id based on what the next index of the array will be
