@@ -1,7 +1,7 @@
 <h1 align="center"> Note Taker </h1>
 
   # Description
-  Take Notes using Heroku
+  A simple note taking app using node.js and express.
   
   # Table of Contents
   * [Site](#site)
@@ -17,7 +17,6 @@
   [Project Site](xx)
 
   ## Built With: 
-  Heroku
   node.js
   Express
   
@@ -27,11 +26,14 @@
   npm install
   
   # Usage
-  run npm index.js
+  Open the application at http://localhost:3001 in a browser to the app and click "Get Started" to be directed to the note section. 
 
-  📷
+  ![screenshot of note taker start page](public/assets/images/Screen%20Shot%202022-05-28%20at%201.17.04%20PM.png)
   
-  🎥
+  From there you can write a note "title" and "text", click the "save" function (floppy disk icon) in the top right corner and your notes will be saved in the left side column for easy retrieval. Click the "delete" function (trash icon) to delete a note. 
+
+  📷  ![screenshot of note taker app](public/assets/images/Screen%20Shot%202022-05-28%20at%201.07.12%20PM.png)
+  
   
   ## Contributing
   Contact me for contributions.
