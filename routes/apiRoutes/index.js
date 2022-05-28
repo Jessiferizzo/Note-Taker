@@ -22,8 +22,8 @@ router.post('/api/notes', (req,res) => {
   // set id based on what the next index of the array will be
         req.body.id = savedNotes.length.toString();
         // if any data in req.body is incorrect, send 400 error back
-        const noteBar= createNewNote(req.body, savedNotes);
-        res.json(noteBar);
+        const note= createNewNote(req.body, savedNotes)
+        res.json(note);
     });
 
 router.delete('/api/notes/:id', (req, res) => {
