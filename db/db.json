@@ -1,6 +1,14 @@
-[
+{
+  "savedNotes": [
     {
-        "title":"Test Title",
-        "text":"Test text"
+      "title": "Eat cake",
+      "text": "all day",
+      "id": "0"
+    },
+    {
+      "title": "Why do people eat cake?",
+      "text": "maybe because of birthdays!",
+      "id": "1"
     }
-]
+  ]
+}
