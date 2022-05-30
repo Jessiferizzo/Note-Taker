@@ -1,6 +1,6 @@
 //require express.js 
 const express = require('express');
-const savedNotes = require('./db/db');
+let notes = require('./db/db.json');
 const path = require('path');
 const fs = require('fs');
 
@@ -18,38 +18,47 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-function createNewNote(body, savedNotesArray) {
-  const newNote = body;
-  savedNotesArray.push(newNote);
-  fs.writeFileSync(
-    path.join(__dirname, './db/db.json'),
-    JSON.stringify( {savedNotes:savedNotesArray }, null, 2)
-  );
-  return newNote;
-}
-
-function findById(id, savedNotesArray) {
-  const result = savedNotesArray.filter(note => note.id === id)[0];
-  return result;
-}
-
-function deleteNote(id, savedNotesArray) {
-  for (let i = 0; i < savedNotesArray.length; i++) {
-    let note = savedNotesArray[i];
-
-    if (note.id == + id) {
-      savedNotesArray.splice(i, 1);
-      fs.writeFileSync(
-        path.join(__dirname, './db/db.json'),
-        JSON.stringify(savedNotesArray, null, 2)
-      );
-
-      break;
+// Create new note
+app.post('/api/notes', function (req, res) {
+  let randLetter = String.fromCharCode(35 + Math.floor(Math.random() * 26));
+  let id = randLetter + Date.now();
+  let newNote = {
+    id: id,
+    title: req.body.title,
+    text: req.body.text,
+  };
+  notes.push(newNote);
+  const stringifyNote = JSON.stringify(notes);
+  res.json(notes);
+  fs.writeFile('db/db.json', stringifyNote, (err) => {
+    if (err) console.log(err);
+    else {
+      console.log("Saved");
     }
-  }
-}
+  });
+});
 
+// Delete note
+app.delete('/api/notes/:id', function (req, res) {
+  let noteID = req.params.id;
+  fs.readFile('db/db.json', 'utf8', function (err, data) {
+    let updatedNotes = JSON.parse(data).filter((note) => {
+      console.log("note.id", note.id);
+      console.log("noteID", noteID);
+      return note.id !== noteID;
+    });
+    notes=updatedNotes;
+    const stringifyNote = JSON.stringify(updatedNotes);
+    fs.writeFile('db/db.json', stringifyNote, (err) => {
+      if (err) console.log(err);
+      else {
+        console.log("Done Deleted");
+      }
+    });
+    res.json(stringifyNote);
+  });
+});
+    
 
 //api routes, displays notes// works YES//
 app.get('/api/notes', (req, res) => {
@@ -58,35 +67,19 @@ app.get('/api/notes', (req, res) => {
       console.log(err);
       return;
     }
-    console.log(data);
-    res.json(savedNotes);
+    res.json(notes);
   });
 });
   
 app.get('/api/notes/:id', (req, res) => {
-  const result = findById(req.params.id, savedNotes);
-  if (result) {
-    res.json(result);
-  } else {
-    res.send(404);
-  }
+  fs.readFile('db/db.json', 'utf8', function (err, data) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    res.json(notes);
+  });
 });
-
-app.post('/api/notes', (req, res) => {
-  // set id based on what the next index of the array will be
-  req.body.id = savedNotes.length.toString();
-  // if any data in req.body is incorrect, send 400 error back
-  const postNote = createNewNote(req.body, savedNotes)
-  res.json(postNote);
-});
-
-//delete route
-app.delete('/api/notes/:id', (req, res) => {
-  deleteNote(req.params.id, savedNotes);
-  res.json(true);
-});
-
-
 
 //HTML routes
 app.get('/', (req, res) => {
@@ -102,7 +95,6 @@ app.get('/notes', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
-
 
 
 //replaced hard code with port variable
