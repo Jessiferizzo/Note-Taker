@@ -1,7 +1,7 @@
 <h1 align="center"> Note Taker </h1>
 
   # Description
-  A simple note taking app using node.js and express.
+  A simple note taking app using node.js and express, deployed at Heroku.
   
   # Table of Contents
   * [Site](#site)
@@ -14,19 +14,20 @@
   # Site 
   [Project Repo](https://github.com/Jessiferizzo/Note-Taker.git)
 
-  [Project Site](xx)
+  [NoteTaker Site Link](https://notetakerexpressjess.herokuapp.com/)
 
   ## Built With: 
   node.js
   Express
+  Heroku
   
   
   # Installation
   💾 
-  npm install
+  npm start
   
   # Usage
-  Open the application at http://localhost:3001 in a browser to the app and click "Get Started" to be directed to the note section. 
+  Open the application at the link [NoteTaker](https://notetakerexpressjess.herokuapp.com/) in a browser to open the app and click "Get Started" to be directed to the note section. 
 
   ![screenshot of note taker start page](public/assets/images/Screen%20Shot%202022-05-28%20at%201.17.04%20PM.png)
   
